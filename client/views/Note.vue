@@ -473,7 +473,7 @@ Mousetrap.bind("e", () => {
 
 function keydownHandler(event) {
   // Ctrl + Enter to save
-  if ((event.ctrlKey || event.metaKey) && event.key == "Enter") {
+  if ((event.ctrlKey || event.metaKey) && event.key == "s") {
     saveHandler((close = false));
   }
   // Escape to exit edit mode

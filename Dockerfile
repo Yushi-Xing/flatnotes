@@ -18,6 +18,10 @@ COPY .htmlnanorc \
 
 RUN npm ci
 
+# ================= 👇 在这里插入 👇 =================
+COPY my-editor.js node_modules/@toast-ui/editor/dist/toastui-editor-all.js
+RUN sed -i 's|dist/esm/index.js|dist/toastui-editor-all.js|g' node_modules/@toast-ui/editor/package.json
+# ================= 👆 插入结束 👆 =================
 COPY client ./client
 RUN npm run build
 
