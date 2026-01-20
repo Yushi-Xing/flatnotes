@@ -92,7 +92,9 @@ function parseWikiLink(source) {
 }
 
 function parseTagLink(source) {
-  const matched = source.matchAll(/(?:^|\s)(#[a-zA-Z0-9_-]+)(?=\s|$)/g);
+  // const matched = source.matchAll(/(?:^|\s)(#[a-zA-Z0-9_-]+)(?=\s|$)/g);                   //only ASCII
+  // const matched = source.matchAll(/(?:^|\s)(#[a-zA-Z0-9_\-\u4e00-\u9fa5]+)(?=\s|$)/g);     //ASCII + Chinese
+  const matched = source.matchAll(/(?:^|\s)(#[\p{L}\p{N}_-]+)(?=\s|$)/gu);                    //Unicode letters + numbers       
   if (matched) {
     return Array.from(matched).map((match) => {
       const text = match[1];

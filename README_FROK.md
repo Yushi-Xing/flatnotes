@@ -1,12 +1,14 @@
 将flatnotes的保存快捷键改为crtl+s
+如果你想要直接使用本分支，直接看[最后一步](#最后一步)
+
 
 在直接docker编译flatnotes后，在浏览器上编辑文件后可以使用Crtl+Enter 快捷键保存
 但是大部分的编辑器，让我们养成了crtl+s 保存文件的习惯，本项目即将flatnotes的保存快捷键改为crtl+s
 
-第一步：
+## 第一步：
 将Crtl+Enter改为Crtl+s,修改
 
-```
+``` js
 // flatnotes/client/views/Note.vue  line 474
 function keydownHandler(event) {
   // Ctrl + Enter to save
@@ -32,7 +34,7 @@ function keydownHandler(event) {
 ```
 
 此步骤之后，crtl+s可以保存，但同时出发下划线，需要继续修改
-第二步
+##第二步
 flatnotes的编辑器使用
 `https://github.com/nhn/tui.editor/`
 其中快捷键被strike占用，tui.editor是dockerbuild自动下载和编译的
@@ -49,7 +51,7 @@ wget -O my-editor.js https://uicdn.toast.com/editor/latest/toastui-editor-all.js
 修改下载下来的 my-editor.js
 现在你的目录下有个 my-editor.js，这是货真价实的 JS 源码。
 
-```
+``` js
 const pcBaseKeymap = {
     "Enter": chainCommands(newlineInCode, createParagraphNear, liftEmptyBlock, splitBlock),
     "Mod-Enter": exitCode,
@@ -75,7 +77,7 @@ return {
 
 修改 .dockerignore
 
-```
+``` shell
 echo "!my-editor.js" >> .dockerignore
 ```
 
@@ -93,9 +95,11 @@ COPY client ./client
 RUN npm run build
 ```
 
-最后一步：
+## 最后一步：
 
-```
+``` shell
+# 构建镜像
+docker build -t crtl-s-flatnotes ./flatnotes
 docker run -d \
   -e "PUID=1000" \
   -e "PGID=1000" \
@@ -105,18 +109,18 @@ docker run -d \
   -e "FLATNOTES_SECRET_KEY=aLongRandomSeriesOfCharacters" \
   -v "$(pwd)/data:/data" \
   -p "8080:8080" \
-  build: ./flatnotes
+  crtl-s-flatnotes
   #dullage/flatnotes:latest
+``` 
 
 
-
-
+```  docker
 version: "3"
 services:
   flatnotes:
     container_name: flatnotes
     #image: dullage/flatnotes:latest
-    build: ./flatnotes
+    build: ./flatnotes   # modified code path 
     environment:
       PUID: 1000
       PGID: 1000
@@ -133,6 +137,6 @@ services:
     restart: unless-stopped
 ```
 
-```shell
+``` shell
 docker compose up -d --no-deps --build flatnotes
 ```

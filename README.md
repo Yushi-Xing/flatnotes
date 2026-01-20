@@ -9,8 +9,10 @@ A self-hosted, database-less note-taking web app that utilises a flat folder of 
 
 Log into the [demo site](https://demo.flatnotes.io) and take a look around. *Note: This site resets every 15 minutes.*
 
-## Contents
+## Frok Changes
+* [Frok Changes](README_FROK.md)
 
+## Contents
 * [Design Principle](#design-principle)
 * [Features](#features)
 * [Getting Started](#getting-started)
