@@ -18,6 +18,9 @@ from whoosh.query import Every
 from whoosh.searching import Hit
 from whoosh.support.charset import accent_map
 
+from jieba.analyse import ChineseAnalyzer
+Chinese_Analyzer = ChineseAnalyzer()
+
 from helpers import get_env, is_valid_filename
 from logger import logger
 
@@ -27,16 +30,16 @@ from ..models import Note, NoteCreate, NoteUpdate, SearchResult
 MARKDOWN_EXT = ".md"
 INDEX_SCHEMA_VERSION = "5"
 
-StemmingFoldingAnalyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
+# StemmingFoldingAnalyzer = StemmingAnalyzer() | CharsetFilter(accent_map)
 
 
 class IndexSchema(SchemaClass):
     filename = ID(unique=True, stored=True)
     last_modified = DATETIME(stored=True, sortable=True)
     title = TEXT(
-        field_boost=2.0, analyzer=StemmingFoldingAnalyzer, sortable=True
+        field_boost=2.0, analyzer=Chinese_Analyzer, sortable=True
     )
-    content = TEXT(analyzer=StemmingFoldingAnalyzer)
+    content = TEXT(analyzer=Chinese_Analyzer)
     tags = KEYWORD(lowercase=True, field_boost=2.0)
 
 
