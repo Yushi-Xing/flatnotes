@@ -65,7 +65,7 @@ const menuItems = [
         name: "search",
         query: {
           [params.searchTerm]: "*",
-          [params.sortBy]: searchSortOptions.title,
+          [params.sortBy]: searchSortOptions.lastModified,
         },
       }),
   },
